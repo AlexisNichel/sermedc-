@@ -1,0 +1,30 @@
+C:\Documents and Settings\1007805\my documents\visual studio 2010\Projects\Serial_Communication\Serial_Communication\bin\Debug\Serial_Communication.exe
+C:\Documents and Settings\1007805\my documents\visual studio 2010\Projects\Serial_Communication\Serial_Communication\bin\Debug\Serial_Communication.pdb
+C:\Documents and Settings\1007805\my documents\visual studio 2010\Projects\Serial_Communication\Serial_Communication\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\1007805\my documents\visual studio 2010\Projects\Serial_Communication\Serial_Communication\obj\x86\Debug\Serial_Communication.Form1.resources
+C:\Documents and Settings\1007805\my documents\visual studio 2010\Projects\Serial_Communication\Serial_Communication\obj\x86\Debug\Serial_Communication.Properties.Resources.resources
+C:\Documents and Settings\1007805\my documents\visual studio 2010\Projects\Serial_Communication\Serial_Communication\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Documents and Settings\1007805\my documents\visual studio 2010\Projects\Serial_Communication\Serial_Communication\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Documents and Settings\1007805\my documents\visual studio 2010\Projects\Serial_Communication\Serial_Communication\obj\x86\Debug\Serial_Communication.exe
+C:\Documents and Settings\1007805\my documents\visual studio 2010\Projects\Serial_Communication\Serial_Communication\obj\x86\Debug\Serial_Communication.pdb
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\bin\Debug\sermed.exe.config
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\bin\Debug\sermed.exe.manifest
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\bin\Debug\sermed.application
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\bin\Debug\sermed.exe
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\bin\Debug\sermed.pdb
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\bin\Debug\Newtonsoft.Json.dll
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\bin\Debug\RestSharp.dll
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\bin\Debug\Newtonsoft.Json.xml
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\bin\Debug\RestSharp.xml
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\sermed.Properties.Resources.resources
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\Serial_Communication.csproj.GenerateResource.cache
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\Serial_Communication.csproj.CoreCompileInputs.cache
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\sermed.exe.manifest
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\sermed.application
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\Serial_Communication.csproj.CopyComplete
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\sermed.exe
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\sermed.pdb
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\Serial_Communication.csprojAssemblyReference.cache
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\Sermed.Form1.resources
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\Sermed.Form2.resources
+C:\Users\alexi\Desktop\demosermedc#\Serial_Communication\obj\x86\Debug\Sermed.Inicio.resources
