@@ -36,7 +36,9 @@ namespace sermed.shared
             s = s.Replace(" ", "");
             byte[] buffer = new byte[s.Length / 2];
             for (int i = 0; i < s.Length; i += 2)
-                buffer[i / 2] = (byte)Convert.ToByte(s.Substring(i, 2), 16);
+            {
+                  buffer[i / 2] = Convert.ToByte(s.Substring(i, 2), 16);
+            }
             return buffer;
         }
         public string ByteArrayToHexString(byte[] data)
@@ -45,6 +47,25 @@ namespace sermed.shared
             foreach (byte b in data)
                 sb.Append(Convert.ToString(b, 16).PadLeft(2, '0').PadRight(3, ' '));
             return sb.ToString().ToUpper();
+        }
+        public byte[] checksum(byte[] command)
+        {
+            int sum = 0;
+            for (var i = 0; i < command.Length; i++)
+            {
+                sum = sum + command[i];
+            }
+            string sumtext = Convert.ToString(sum, 16);
+            var hexSum = sumtext.Length == 3 ? "0" + sumtext : sumtext;
+            var chk = new Shared().HexStringToByteArray(hexSum.ToUpper());
+            var chk1 = chk[0];
+            chk[0] = chk[1];
+            chk[1] = chk1;
+            int length = command.Length + chk.Length;
+            byte[] end = new byte[length];
+            command.CopyTo(end, 0);
+            chk.CopyTo(end, command.Length);
+            return end;
         }
     }
 }

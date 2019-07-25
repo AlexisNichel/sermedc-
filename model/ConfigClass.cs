@@ -18,10 +18,17 @@ namespace sermed.model
         public String cmbStopBits { get; set; }
         public String equipo { get; set; }
     }
-
     class VersionClass
     {
         public String version = "Versión: 3.0.0";
     }
+    class DataClass
+    {
+        public String accion { get; set; }
+        public String p_ci { get; set; }
+        public String p_id_maquina { get; set; }
+        public String type { get; set; }
+        public String version { get; set; }
+        
+    }
 }
-

@@ -11,27 +11,39 @@ using System.IO;
 using sermed.model;
 using Microsoft.Win32;
 using sermed.shared;
-
 namespace Sermed
 {
     public partial class Form1 : Form
-        {
+    {
         public Form1()
         {
             InitializeComponent();
         }
         public SerialPort ComPort = new SerialPort();
-        private void Form1_Load(object sender, EventArgs e) 
+        private void Form1_Load(object sender, EventArgs e)
         {
-            var config = new Shared().GetConfig();
-            updatePorts();          
-            cmbBaudRate.SelectedIndex = 7;
-            cmbDataBits.SelectedIndex = 1;
-            cmbStopBits.SelectedIndex = 0;
-            cmbParity.SelectedIndex = 0;
-            cmbReintento.SelectedIndex = 1;
-            cmbTimeout.SelectedIndex = 3;
             groupBox4.Enabled = false;
+            var config = new Shared().GetConfig();
+            updatePorts();
+            if (!String.IsNullOrEmpty(config.cmbPortName))
+                cmbPortName.SelectedItem = config.cmbPortName;
+            else
+            {
+                if (cmbPortName.Items.Count > 0)
+                    cmbPortName.SelectedIndex = 0;
+            }
+            if (!String.IsNullOrEmpty(config.cmbReintento))
+                cmbReintento.SelectedItem = config.cmbReintento;
+            else
+                cmbReintento.SelectedIndex = 1;
+            if (!String.IsNullOrEmpty(config.cmbTimeout))
+                cmbTimeout.SelectedItem = config.cmbTimeout;
+            else
+                cmbTimeout.SelectedIndex = 3;
+            if (!String.IsNullOrEmpty(config.equipo))
+                equipo.Text = config.equipo;
+            else
+                equipo.Text = "0";
         }
         public void updatePorts()
         {
@@ -58,15 +70,15 @@ namespace Sermed
         public void connect()
         {
             bool error = false;
-            if (cmbPortName.SelectedIndex != -1 & cmbBaudRate.SelectedIndex != -1 & cmbParity.SelectedIndex != -1 & cmbDataBits.SelectedIndex != -1 & cmbStopBits.SelectedIndex != -1 & cmbTimeout.SelectedIndex != -1 & cmbReintento.SelectedIndex != -1)
-             {
+            if (cmbPortName.SelectedIndex != -1 & cmbTimeout.SelectedIndex != -1 & cmbReintento.SelectedIndex != -1)
+            {
                 ComPort.PortName = cmbPortName.Text;
-                ComPort.BaudRate = int.Parse(cmbBaudRate.Text);      
-                ComPort.Parity = (Parity)Enum.Parse(typeof(Parity), cmbParity.Text); 
-                ComPort.DataBits = int.Parse(cmbDataBits.Text);      
-                ComPort.StopBits = (StopBits)Enum.Parse(typeof(StopBits), cmbStopBits.Text);
+                ComPort.BaudRate = 115200;
+                ComPort.Parity = (Parity)Enum.Parse(typeof(Parity), "None");
+                ComPort.DataBits = 8;
+                ComPort.StopBits = (StopBits)Enum.Parse(typeof(StopBits), "1");
                 try
-                { 
+                {
                     ComPort.Open();
                 }
                 catch (UnauthorizedAccessException) { error = true; }
@@ -79,7 +91,6 @@ namespace Sermed
             if (ComPort.IsOpen)
             {
                 btnConnect.Text = "Desconectar";
-                groupBox1.Enabled = false;
                 groupBox3.Enabled = false;
                 groupBox4.Enabled = true;
             }
@@ -88,7 +99,6 @@ namespace Sermed
         {
             ComPort.Close();
             btnConnect.Text = "Conectar";
-            groupBox1.Enabled = true;
             groupBox3.Enabled = true;
             groupBox4.Enabled = false;
         }
@@ -105,7 +115,7 @@ namespace Sermed
         }
         private void BtnSave(object sender, EventArgs e)
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("sermed");  
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("sermed");
             key = Registry.CurrentUser.CreateSubKey("Software\\Classes\\" + "sermed");
             key.SetValue(string.Empty, "URL:sermed Protocol");
             key.SetValue("URL Protocol", string.Empty);
@@ -113,14 +123,21 @@ namespace Sermed
             string applicationLocation = typeof(Program).Assembly.Location;
             key.SetValue("", "\"" + applicationLocation + "\" \"%1\"");
             key.Close();
-            if (cmbPortName.SelectedIndex != -1 & cmbBaudRate.SelectedIndex != -1 & cmbParity.SelectedIndex != -1 & cmbDataBits.SelectedIndex != -1 & cmbStopBits.SelectedIndex != -1 & cmbTimeout.SelectedIndex != -1 & cmbReintento.SelectedIndex != -1)
+            if (cmbPortName.SelectedIndex != -1 & cmbTimeout.SelectedIndex != -1 & cmbReintento.SelectedIndex != -1)
             {
-                if (ComPort.IsOpen)
+                if (!ComPort.IsOpen)
                 {
-                    disconnect();
+                    connect();
                 }
-                string userRoot = System.Environment.GetEnvironmentVariable("USERPROFILE");
-                var path = Path.GetFullPath(userRoot+"\\config.txt");
+                var hexSexonds = Convert.ToString(long.Parse(cmbTimeout.SelectedItem.ToString()), 16);
+                if (hexSexonds.Length == 1)
+                    hexSexonds = "0" + hexSexonds;
+                string command = new SensorClass().SetTimeout.Replace("[value]", hexSexonds.ToUpper());
+                byte[] data = new Shared().HexStringToByteArray(command);
+                byte[] cheked = new Shared().checksum(data);
+                ComPort.Write(cheked, 0, cheked.Length);
+                string userRoot = Environment.GetEnvironmentVariable("USERPROFILE");
+                var path = Path.GetFullPath(userRoot + "\\config.txt");
                 try
                 {
                     StreamWriter sw = new StreamWriter(path, false, Encoding.ASCII);
@@ -128,21 +145,20 @@ namespace Sermed
                     config += cmbPortName.SelectedItem + "\r\n";
                     config += cmbTimeout.SelectedItem + "\r\n";
                     config += cmbReintento.SelectedItem + "\r\n";
-                    config += cmbBaudRate.SelectedItem + "\r\n";
-                    config += cmbParity.SelectedItem + "\r\n";
-                    config += cmbDataBits.SelectedItem + "\r\n";
-                    config += cmbStopBits.SelectedItem + "\r\n";
+                    config += "115200\r\n";
+                    config += "None\r\n";
+                    config += "8\r\n";
+                    config += "1\r\n";
                     config += equipo.Text + "\r\n";
                     sw.Write(config);
                     sw.Close();
-                    this.Hide();
-                    Form2 objUI = new Form2();
-                    objUI.Closed += (s, args) => this.Close();
-                    objUI.Show();
+                    MessageBox.Show(this, "Configuración guardada", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    disconnect();
+                    this.Close();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, "Error al guardar configuración:", "Error de acceso al filesystem", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show(this, "Error al guardar configuración:", "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     Console.WriteLine("Exception: " + ex.Message);
                 }
                 finally
@@ -151,7 +167,7 @@ namespace Sermed
                 }
             }
             else
-                MessageBox.Show("Por favor seleccióne todos los parámetros requeridos.", "Seleccionar puerto", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
+                MessageBox.Show("Por favor seleccióne todos los parámetros requeridos.", "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+        }
     }
 }
