@@ -22,6 +22,10 @@ namespace sermed.model
     {
         public String version = "Versión: 3.0.0";
     }
+    class UrlClass
+    {
+        public String url = "http://visa.sermed.info:8081/WSHuella/ws/procesos/";
+    }
     class DataClass
     {
         public String accion { get; set; }
@@ -30,5 +34,12 @@ namespace sermed.model
         public String type { get; set; }
         public String version { get; set; }
         
+    }
+    class VerifyClass
+    {
+        public String P_MENSAJE { get; set; }
+        public Int32 P_NRO_DEDO1 { get; set; }
+        public Int32 P_NRO_DEDO2 { get; set; }
+        public String P_OK { get; set; }
     }
 }

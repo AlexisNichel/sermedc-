@@ -31,36 +31,21 @@ namespace Sermed
             {
                 var argument = args[1].Replace("sermed://", string.Empty);
                 var urlparams = argument.Split('/');
-                var sendData = new DataClass();
-                sendData.accion = "validar";
-                sendData.p_ci = urlparams[0];
-                sendData.p_id_maquina = "1";
-                sendData.version = new VersionClass().version;
-                sendData.type = urlparams[1]; 
-                var config = new Shared().GetConfig();
-                WebRequest request = WebRequest.Create("http://visa.sermed.info:8081/WSHuella/ws/procesos/huellas");
-                request.Method = "POST";
-                string postData = JsonConvert.SerializeObject(sendData);
-                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-                request.ContentType = "text/plain";
-                request.ContentLength = byteArray.Length;
-                Stream dataStream = request.GetRequestStream();
-                dataStream.Write(byteArray, 0, byteArray.Length);
-                dataStream.Close();
-                WebResponse response = request.GetResponse();
-                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-                dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                string responseFromServer = reader.ReadToEnd();
-                Console.WriteLine(responseFromServer);
-                label1.Text = responseFromServer;
-                reader.Close();
-                dataStream.Close();
-                response.Close();
-                var datos = JsonConvert.DeserializeObject(responseFromServer);
+                var datos = sermed.shared.ApiCall.GetVerifyData(urlparams[0], "visa", "huellas");
+                label1.Text = JsonConvert.SerializeObject(datos);
+                if (datos.P_OK == "NO")
+                {
+
+                }
+
+
+
+
+
+
                 byte[] data = new Shared().HexStringToByteArray(new SensorClass().DeleteAll);
                 ComPort.Write(data, 0, data.Length);
-                data = new Shared().HexStringToByteArray(new SensorClass().DeleteAll);
+                data = new Shared().HexStringToByteArray(new SensorClass().LedOn);
                 ComPort.Write(data, 0, data.Length);
             }
             catch

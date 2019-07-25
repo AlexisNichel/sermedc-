@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="model\SensorClass.cs" />
     <Compile Include="model\ConfigClass.cs" />
+    <Compile Include="shared\ApiCall.cs" />
     <Compile Include="shared\Shared.cs" />
     <Compile Include="Verify.cs">
       <SubType>Form</SubType>
@@ -179,6 +180,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\finger.png" />
+    <None Include="Resources\hands.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
