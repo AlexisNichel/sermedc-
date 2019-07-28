@@ -43,6 +43,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(474, 140);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.UseWaitCursor = true;
             // 
             // label1
             // 
@@ -52,6 +53,7 @@
             this.label1.Size = new System.Drawing.Size(145, 25);
             this.label1.TabIndex = 1;
             this.label1.Text = "Versión: 3.0.0";
+            this.label1.UseWaitCursor = true;
             // 
             // progressBar1
             // 
@@ -59,6 +61,7 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(474, 23);
             this.progressBar1.TabIndex = 2;
+            this.progressBar1.UseWaitCursor = true;
             // 
             // Inicio
             // 
@@ -67,6 +70,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(774, 310);
+            this.ControlBox = false;
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
@@ -74,6 +78,7 @@
             this.Name = "Inicio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sermed V2";
+            this.UseWaitCursor = true;
             this.Load += new System.EventHandler(this.Inicio_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

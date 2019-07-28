@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
-
 namespace Sermed
 {
     static class Program
@@ -21,9 +20,6 @@ namespace Sermed
                     MessageBox.Show("El programa ya está en ejecución");
                     return;
                 }
-
-
-
                 string[] args = Environment.GetCommandLineArgs();
                 String line;
                 try
@@ -40,7 +36,7 @@ namespace Sermed
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Err.:" + ex.Message);
+                    Console.WriteLine("Config.:" + ex.Message);
                     Application.Run(new Inicio());
                 }
 

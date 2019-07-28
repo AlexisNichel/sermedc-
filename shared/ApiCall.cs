@@ -19,16 +19,18 @@ namespace sermed.shared
 {
     internal class ApiCall
     {
-        public static VerifyClass GetVerifyData(String document, String type, String path)
+        public static VerifyClass SendReq(String action, String document, int dedo, String huella, String type)
         {
             var config = new Shared().GetConfig();
             var sendData = new DataClass();
-            sendData.accion = "validar";
+            sendData.accion = action;
             sendData.p_ci = document;
-            sendData.p_id_maquina = config.equipo;
+            sendData.p_id_maquina = Convert.ToInt32(config.equipo);
             sendData.version = new VersionClass().version;
+            sendData.p_nro_dedo1 = dedo;
+            sendData.p_huella1 = huella;
             sendData.type = type;
-            WebRequest request = WebRequest.Create(new UrlClass().url + path);
+            WebRequest request = WebRequest.Create(new UrlClass().url + "huellas");
             request.Method = "POST";
             string postData = JsonConvert.SerializeObject(sendData);
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);

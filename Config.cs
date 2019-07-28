@@ -111,6 +111,7 @@ namespace Sermed
         }
         private void BtnCancel_Click(object sender, EventArgs e)
         {
+            if (ComPort.IsOpen) ComPort.Close();
             this.Close();
         }
         private void BtnSave(object sender, EventArgs e)
@@ -126,9 +127,7 @@ namespace Sermed
             if (cmbPortName.SelectedIndex != -1 & cmbTimeout.SelectedIndex != -1 & cmbReintento.SelectedIndex != -1)
             {
                 if (!ComPort.IsOpen)
-                {
                     connect();
-                }
                 var hexSexonds = Convert.ToString(long.Parse(cmbTimeout.SelectedItem.ToString()), 16);
                 if (hexSexonds.Length == 1)
                     hexSexonds = "0" + hexSexonds;

@@ -30,16 +30,19 @@ namespace sermed.model
     {
         public String accion { get; set; }
         public String p_ci { get; set; }
-        public String p_id_maquina { get; set; }
+        public Int32 p_id_maquina { get; set; }
         public String type { get; set; }
         public String version { get; set; }
-        
+        public Int32 p_nro_dedo1 { get; set; }
+        public String p_huella1 { get; set; }
     }
     class VerifyClass
     {
+        public String P_NOMBRE { get; set; }
         public String P_MENSAJE { get; set; }
         public Int32 P_NRO_DEDO1 { get; set; }
         public Int32 P_NRO_DEDO2 { get; set; }
         public String P_OK { get; set; }
+        public String P_HUELLA1 { get; set; }
     }
 }
