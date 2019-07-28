@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
-using System.IO;
 using sermed.model;
 using Microsoft.Win32;
 using sermed.shared;
@@ -19,7 +12,9 @@ namespace Sermed
         {
             InitializeComponent();
         }
+        private Timer step;
         public SerialPort ComPort = new SerialPort();
+        public Boolean AlertPermit = true;
         private void Form1_Load(object sender, EventArgs e)
         {
             groupBox4.Enabled = false;
@@ -32,25 +27,47 @@ namespace Sermed
                 if (cmbPortName.Items.Count > 0)
                     cmbPortName.SelectedIndex = 0;
             }
-            if (!String.IsNullOrEmpty(config.cmbReintento))
-                cmbReintento.SelectedItem = config.cmbReintento;
-            else
-                cmbReintento.SelectedIndex = 1;
             if (!String.IsNullOrEmpty(config.cmbTimeout))
                 cmbTimeout.SelectedItem = config.cmbTimeout;
             else
                 cmbTimeout.SelectedIndex = 3;
             if (!String.IsNullOrEmpty(config.equipo))
+            {
                 equipo.Text = config.equipo;
+                equipo.Enabled = false;
+            }
             else
                 equipo.Text = "0";
         }
         public void updatePorts()
         {
             string[] ports = SerialPort.GetPortNames();
-            foreach (string port in ports)
+            if (ports.Length == 0 && AlertPermit)
             {
-                cmbPortName.Items.Add(port);
+                step = new Timer();
+                step.Interval = (int)TimeSpan.FromMilliseconds(2000).TotalMilliseconds;
+                step.Tick += delegate
+                {
+                    ports = SerialPort.GetPortNames();
+                    if (ports.Length > 0)
+                    {
+                        step.Stop();
+                        step.Dispose();
+                        foreach (string port in ports)
+                            cmbPortName.Items.Add(port);
+                        cmbPortName.SelectedIndex = 0;
+
+                    }
+                };
+                step.Start();
+                AlertPermit = false;
+                sermed.Help objUI = new sermed.Help();
+                objUI.Show();
+            }
+            else
+            {
+                foreach (string port in ports)
+                    cmbPortName.Items.Add(port);
             }
         }
         private void BtnLedOn(object sender, EventArgs e)
@@ -70,7 +87,7 @@ namespace Sermed
         public void connect()
         {
             bool error = false;
-            if (cmbPortName.SelectedIndex != -1 & cmbTimeout.SelectedIndex != -1 & cmbReintento.SelectedIndex != -1)
+            if (cmbPortName.SelectedIndex != -1 & cmbTimeout.SelectedIndex != -1)
             {
                 ComPort.PortName = cmbPortName.Text;
                 ComPort.BaudRate = 115200;
@@ -124,7 +141,7 @@ namespace Sermed
             string applicationLocation = typeof(Program).Assembly.Location;
             key.SetValue("", "\"" + applicationLocation + "\" \"%1\"");
             key.Close();
-            if (cmbPortName.SelectedIndex != -1 & cmbTimeout.SelectedIndex != -1 & cmbReintento.SelectedIndex != -1)
+            if (cmbPortName.SelectedIndex != -1 & cmbTimeout.SelectedIndex != -1)
             {
                 if (!ComPort.IsOpen)
                     connect();
@@ -135,22 +152,13 @@ namespace Sermed
                 byte[] data = new Shared().HexStringToByteArray(command);
                 byte[] cheked = new Shared().checksum(data);
                 ComPort.Write(cheked, 0, cheked.Length);
-                string userRoot = Environment.GetEnvironmentVariable("USERPROFILE");
-                var path = Path.GetFullPath(userRoot + "\\config.txt");
+                if (ComPort.IsOpen) ComPort.Close();
                 try
                 {
-                    StreamWriter sw = new StreamWriter(path, false, Encoding.ASCII);
-                    var config = String.Empty;
-                    config += cmbPortName.SelectedItem + "\r\n";
-                    config += cmbTimeout.SelectedItem + "\r\n";
-                    config += cmbReintento.SelectedItem + "\r\n";
-                    config += "115200\r\n";
-                    config += "None\r\n";
-                    config += "8\r\n";
-                    config += "1\r\n";
-                    config += equipo.Text + "\r\n";
-                    sw.Write(config);
-                    sw.Close();
+                    sermed.Properties.Settings.Default.Port = cmbPortName.SelectedItem.ToString();
+                    sermed.Properties.Settings.Default.TimeOut = cmbTimeout.SelectedItem.ToString();
+                    sermed.Properties.Settings.Default.Equipo = equipo.Text.ToString();
+                    sermed.Properties.Settings.Default.Save();
                     MessageBox.Show(this, "Configuración guardada", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     disconnect();
                     this.Close();
@@ -159,10 +167,6 @@ namespace Sermed
                 {
                     MessageBox.Show(this, "Error al guardar configuración:", "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     Console.WriteLine("Exception: " + ex.Message);
-                }
-                finally
-                {
-                    Console.WriteLine("Executing finally block.");
                 }
             }
             else

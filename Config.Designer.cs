@@ -36,8 +36,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.equipo = new System.Windows.Forms.TextBox();
-            this.cmbReintento = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.cmbTimeout = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -52,7 +50,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 55);
+            this.label2.Location = new System.Drawing.Point(9, 78);
             this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(136, 25);
@@ -62,7 +60,7 @@
             // cmbPortName
             // 
             this.cmbPortName.FormattingEnabled = true;
-            this.cmbPortName.Location = new System.Drawing.Point(216, 55);
+            this.cmbPortName.Location = new System.Drawing.Point(216, 75);
             this.cmbPortName.Margin = new System.Windows.Forms.Padding(6);
             this.cmbPortName.Name = "cmbPortName";
             this.cmbPortName.Size = new System.Drawing.Size(304, 33);
@@ -86,8 +84,6 @@
             // 
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.equipo);
-            this.groupBox3.Controls.Add(this.cmbReintento);
-            this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.cmbTimeout);
             this.groupBox3.Controls.Add(this.label2);
@@ -102,7 +98,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 285);
+            this.label1.Location = new System.Drawing.Point(9, 271);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(85, 25);
@@ -111,39 +107,16 @@
             // 
             // equipo
             // 
-            this.equipo.Location = new System.Drawing.Point(216, 285);
+            this.equipo.Location = new System.Drawing.Point(216, 268);
             this.equipo.Margin = new System.Windows.Forms.Padding(6);
             this.equipo.Name = "equipo";
             this.equipo.Size = new System.Drawing.Size(304, 31);
             this.equipo.TabIndex = 10;
             // 
-            // cmbReintento
-            // 
-            this.cmbReintento.FormattingEnabled = true;
-            this.cmbReintento.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3"});
-            this.cmbReintento.Location = new System.Drawing.Point(216, 206);
-            this.cmbReintento.Name = "cmbReintento";
-            this.cmbReintento.Size = new System.Drawing.Size(304, 33);
-            this.cmbReintento.TabIndex = 9;
-            this.cmbReintento.Text = "Seleccionar reintentos";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(9, 209);
-            this.label9.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(121, 25);
-            this.label9.TabIndex = 8;
-            this.label9.Text = "Reintentos:";
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 131);
+            this.label8.Location = new System.Drawing.Point(9, 172);
             this.label8.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(99, 25);
@@ -166,7 +139,7 @@
             "50",
             "55",
             "60"});
-            this.cmbTimeout.Location = new System.Drawing.Point(216, 128);
+            this.cmbTimeout.Location = new System.Drawing.Point(216, 169);
             this.cmbTimeout.Name = "cmbTimeout";
             this.cmbTimeout.Size = new System.Drawing.Size(304, 33);
             this.cmbTimeout.TabIndex = 6;
@@ -243,7 +216,9 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(6);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -264,8 +239,6 @@
         private System.Windows.Forms.ComboBox cmbPortName;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ComboBox cmbReintento;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox cmbTimeout;
         private System.Windows.Forms.GroupBox groupBox4;

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace sermed.model
 {
     class SensorClass
@@ -17,6 +12,5 @@ namespace sermed.model
         public String GetFP = "55AA0A0102000[value]000000000000000000000000000000";
         public String WriteStart = "55AA0B010200F20100000000000000000000000000000002";
         public String FPBase = "5AA50B01F4010[value]00";
-
     }
 }

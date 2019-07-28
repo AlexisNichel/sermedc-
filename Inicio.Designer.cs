@@ -36,7 +36,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::sermed.Properties.Resources.logoGrande;
+            this.pictureBox1.BackgroundImage = global::sermed.Properties.Resources.logo;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Location = new System.Drawing.Point(151, 58);
             this.pictureBox1.Name = "pictureBox1";

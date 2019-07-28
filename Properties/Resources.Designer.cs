@@ -63,9 +63,9 @@ namespace sermed.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap asda {
+        internal static System.Drawing.Bitmap dedo1 {
             get {
-                object obj = ResourceManager.GetObject("asda", resourceCulture);
+                object obj = ResourceManager.GetObject("dedo1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace sermed.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap descarga {
+        internal static System.Drawing.Bitmap dedo2 {
             get {
-                object obj = ResourceManager.GetObject("descarga", resourceCulture);
+                object obj = ResourceManager.GetObject("dedo2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace sermed.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fin1 {
+        internal static System.Drawing.Bitmap fp1 {
             get {
-                object obj = ResourceManager.GetObject("fin1", resourceCulture);
+                object obj = ResourceManager.GetObject("fp1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,19 +93,9 @@ namespace sermed.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fin12 {
+        internal static System.Drawing.Bitmap fp2 {
             get {
-                object obj = ResourceManager.GetObject("fin12", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap finger {
-            get {
-                object obj = ResourceManager.GetObject("finger", resourceCulture);
+                object obj = ResourceManager.GetObject("fp2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +113,9 @@ namespace sermed.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap logoGrande {
+        internal static System.Drawing.Bitmap logo {
             get {
-                object obj = ResourceManager.GetObject("logoGrande", resourceCulture);
+                object obj = ResourceManager.GetObject("logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +123,9 @@ namespace sermed.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Sin_título_1 {
+        internal static System.Drawing.Bitmap read {
             get {
-                object obj = ResourceManager.GetObject("Sin título-1", resourceCulture);
+                object obj = ResourceManager.GetObject("read", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +133,9 @@ namespace sermed.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Sin_título_11 {
+        internal static System.Drawing.Bitmap step {
             get {
-                object obj = ResourceManager.GetObject("Sin título-11", resourceCulture);
+                object obj = ResourceManager.GetObject("step", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,19 +143,9 @@ namespace sermed.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ssss {
+        internal static System.Drawing.Bitmap usb {
             get {
-                object obj = ResourceManager.GetObject("ssss", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ssss1 {
-            get {
-                object obj = ResourceManager.GetObject("ssss1", resourceCulture);
+                object obj = ResourceManager.GetObject("usb", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

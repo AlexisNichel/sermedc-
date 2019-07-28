@@ -4,7 +4,7 @@
   <description asmv2:iconFile="icon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="sermed" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
+    <assemblyIdentity name="sermed" version="3.0.1.0" language="neutral" processorArchitecture="x86" />
     <commandLine file="sermed.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -67,14 +67,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="sermed.exe" size="255488">
-      <assemblyIdentity name="sermed" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="sermed.exe" size="254976">
+      <assemblyIdentity name="sermed" version="3.0.1.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>z00zFK/0DVd5s7Uj1PNkky/TNu34x4rvJZ7wd5JaBKk=</dsig:DigestValue>
+        <dsig:DigestValue>DmKVM38VXihDvpWcQ97D1nl9F5fGGQN8nxWhjuucqvk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -87,13 +87,13 @@
       <dsig:DigestValue>KFzgl/W4EWmQjtXpEfvjBaQLmWYVgx1USzzHtP4izvE=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="sermed.exe.config" size="163">
+  <file name="sermed.exe.config" size="1772">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>aGKyVzYln3v9NE5D7qEKcDiFvjge7ip0XOsSkWsBoVg=</dsig:DigestValue>
+      <dsig:DigestValue>iR/KJez+Lzi5wKWg21+c6aKOsx+D49Q7nt0fssvTDNo=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

@@ -14,14 +14,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="sermed.exe.manifest" size="5305">
+    <dependentAssembly dependencyType="install" codebase="sermed.exe.manifest" size="5306">
       <assemblyIdentity name="sermed.exe" version="3.0.0.6" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>XtlDDDeqPDonZg4hoGUjZKS6Pox2frSxGEayISfr5nM=</dsig:DigestValue>
+        <dsig:DigestValue>rG21HgeWMa7mj8o6gwRkTdk9bCOHGOCImoM8lzSyl2U=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

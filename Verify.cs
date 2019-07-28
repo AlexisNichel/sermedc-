@@ -8,13 +8,8 @@ using System.Text;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using sermed.model;
-using Newtonsoft.Json;
-using System.Net.Http;
 using System.IO.Ports;
-using System.IO;
-using System.Net;
 using sermed.shared;
-
 namespace Sermed
 {
     public partial class Form2 : Form
@@ -23,11 +18,8 @@ namespace Sermed
         {
             InitializeComponent();
         }
-        private SerialPort ComPort = new SerialPort();  //Initialise ComPort Variable as SerialPort
+        private SerialPort ComPort = new SerialPort(); 
         private Timer tmrbar;
-        private Timer redirect;
-
-
         byte[] data = null;
         int dedo;
         int step = 0;
@@ -72,12 +64,12 @@ namespace Sermed
                     {
                         args = new string[2];
                         args[0] = "as"; //estado
-                        args[1] = "1125310120/ca";
+                        args[1] = "1125312030/ca";
                         var argument = args[1].Replace("sermed://", string.Empty);
                         var urlparams = argument.Split('/');
                         document = urlparams[0];
                         queryType = urlparams[1];
-                        var datos = ApiCall.SendReq("VALIDAR", document, 0, "", "visa");
+                        var datos = ApiCall.SendFPReq("VALIDAR", document, 0, "", "visa");
 
                         if ((datos.P_OK == "SI" || datos.P_OK == "1") && !String.IsNullOrEmpty(datos.P_HUELLA1))
                         {
@@ -332,7 +324,7 @@ namespace Sermed
             byte[] byteBuffer = bufferRead();
             byte[] huellaByte = new Shared().GetCleanFP(byteBuffer);
             String Base64 = Convert.ToBase64String(huellaByte);
-            var datos = ApiCall.SendReq("INSERTAR", document, dedo, Base64, "enrol");
+            var datos = ApiCall.SendFPReq("INSERTAR", document, dedo, Base64, "enrol");
             if (datos.P_OK == "SI" || datos.P_OK == "1")
             {
                 lblstep.Text = "Huella enrolada correctamente";

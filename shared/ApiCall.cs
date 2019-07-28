@@ -7,19 +7,14 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Web.Script.Serialization;
-using System.Windows.Forms;
 using sermed.model;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.IO.Ports;
 using System.Net;
-using sermed.shared;
-
 namespace sermed.shared
 {
     internal class ApiCall
     {
-        public static VerifyClass SendReq(String action, String document, int dedo, String huella, String type)
+        public static VerifyClass SendFPReq(String action, String document, int dedo, String huella, String type)
         {
             var config = new Shared().GetConfig();
             var sendData = new DataClass();

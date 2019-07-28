@@ -63,7 +63,7 @@ namespace Sermed
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calibri", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(350, 93);
+            this.label2.Location = new System.Drawing.Point(350, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(984, 78);
             this.label2.TabIndex = 4;
@@ -126,7 +126,7 @@ namespace Sermed
             // 
             // flecha1
             // 
-            this.flecha1.BackgroundImage = global::sermed.Properties.Resources.descarga;
+            this.flecha1.BackgroundImage = global::sermed.Properties.Resources.step;
             this.flecha1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.flecha1.Location = new System.Drawing.Point(483, 447);
             this.flecha1.Name = "flecha1";
@@ -137,7 +137,7 @@ namespace Sermed
             // 
             // step3picture
             // 
-            this.step3picture.BackgroundImage = global::sermed.Properties.Resources.asda;
+            this.step3picture.BackgroundImage = global::sermed.Properties.Resources.read;
             this.step3picture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.step3picture.Location = new System.Drawing.Point(1283, 346);
             this.step3picture.Name = "step3picture";
@@ -148,7 +148,7 @@ namespace Sermed
             // 
             // step2picture
             // 
-            this.step2picture.BackgroundImage = global::sermed.Properties.Resources.asda;
+            this.step2picture.BackgroundImage = global::sermed.Properties.Resources.read;
             this.step2picture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.step2picture.Location = new System.Drawing.Point(676, 346);
             this.step2picture.Name = "step2picture";
@@ -159,7 +159,7 @@ namespace Sermed
             // 
             // step1picture
             // 
-            this.step1picture.BackgroundImage = global::sermed.Properties.Resources.asda;
+            this.step1picture.BackgroundImage = global::sermed.Properties.Resources.read;
             this.step1picture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.step1picture.Location = new System.Drawing.Point(73, 346);
             this.step1picture.Name = "step1picture";
@@ -170,7 +170,7 @@ namespace Sermed
             // 
             // huella2
             // 
-            this.huella2.BackgroundImage = global::sermed.Properties.Resources.fin1;
+            this.huella2.BackgroundImage = global::sermed.Properties.Resources.fp2;
             this.huella2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.huella2.Location = new System.Drawing.Point(867, 456);
             this.huella2.Name = "huella2";
@@ -181,7 +181,7 @@ namespace Sermed
             // 
             // dedo2
             // 
-            this.dedo2.BackgroundImage = global::sermed.Properties.Resources.fin12;
+            this.dedo2.BackgroundImage = global::sermed.Properties.Resources.dedo2;
             this.dedo2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.dedo2.Location = new System.Drawing.Point(867, 456);
             this.dedo2.Name = "dedo2";
@@ -192,7 +192,7 @@ namespace Sermed
             // 
             // huella1
             // 
-            this.huella1.BackgroundImage = global::sermed.Properties.Resources.ssss;
+            this.huella1.BackgroundImage = global::sermed.Properties.Resources.fp1;
             this.huella1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.huella1.Location = new System.Drawing.Point(994, 250);
             this.huella1.Name = "huella1";
@@ -202,7 +202,7 @@ namespace Sermed
             // 
             // dedo1
             // 
-            this.dedo1.BackgroundImage = global::sermed.Properties.Resources.Sin_título_11;
+            this.dedo1.BackgroundImage = global::sermed.Properties.Resources.dedo1;
             this.dedo1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.dedo1.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.dedo1.Location = new System.Drawing.Point(994, 250);
@@ -224,7 +224,7 @@ namespace Sermed
             // 
             // flecha2
             // 
-            this.flecha2.BackgroundImage = global::sermed.Properties.Resources.descarga;
+            this.flecha2.BackgroundImage = global::sermed.Properties.Resources.step;
             this.flecha2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.flecha2.Location = new System.Drawing.Point(1092, 456);
             this.flecha2.Name = "flecha2";
@@ -257,6 +257,7 @@ namespace Sermed
             this.Controls.Add(this.bartimeout);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pictureBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Validar";

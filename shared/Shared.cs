@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Text;
 namespace sermed.shared
 {
@@ -7,38 +6,25 @@ namespace sermed.shared
     {
         public model.ConfigClass GetConfig()
         {
-            string userRoot = System.Environment.GetEnvironmentVariable("USERPROFILE");
-            var path = Path.GetFullPath(userRoot + "\\config.txt");
             var config = new model.ConfigClass();
             try
             {
-                using (StreamReader sr = new StreamReader(path))
-                {
-                    config.cmbPortName = sr.ReadLine();
-                    config.cmbTimeout = sr.ReadLine();
-                    config.cmbReintento = sr.ReadLine();
-                    config.cmbBaudRate = sr.ReadLine();
-                    config.cmbParity = sr.ReadLine();
-                    config.cmbDataBits = sr.ReadLine();
-                    config.cmbStopBits = sr.ReadLine();
-                    config.equipo = sr.ReadLine();
-                    return config;
-                }
+                config.cmbPortName = Properties.Settings.Default.Port;
+                config.cmbTimeout = Properties.Settings.Default.TimeOut;
+                config.equipo = Properties.Settings.Default.Equipo;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return config;
             }
+            return config;
         }
         public byte[] HexStringToByteArray(string s)
         {
             s = s.Replace(" ", "");
             byte[] buffer = new byte[s.Length / 2];
             for (int i = 0; i < s.Length; i += 2)
-            {
                 buffer[i / 2] = Convert.ToByte(s.Substring(i, 2), 16);
-            }
             return buffer;
         }
         public string ByteArrayToHexString(byte[] data)
@@ -57,9 +43,7 @@ namespace sermed.shared
         {
             int sum = 0;
             for (var i = 0; i < command.Length; i++)
-            {
                 sum = sum + command[i];
-            }
             string sumtext = Convert.ToString(sum, 16);
             var hexSum = sumtext.Length == 3 ? "0" + sumtext : sumtext;
             var chk = new Shared().HexStringToByteArray(hexSum.ToUpper());
@@ -76,9 +60,7 @@ namespace sermed.shared
         {
             byte[] command = new byte[24];
             for (var i = 0; i <= 23; i++)
-            {
                 command[i] = 0;
-            }
             command[0] = 85;
             command[1] = 0xAA;
             return command;
@@ -87,9 +69,7 @@ namespace sermed.shared
         {
             var sum = 0;
             for (var i = 0; i <= 21; i++)
-            {
                 sum = sum + command[i];
-            }
             string sumtext = Convert.ToString(sum, 16);
             var hexSum = sumtext.Length == 3 ? "0" + sumtext : sumtext;
             var chk = new Shared().HexStringToByteArray(hexSum.ToUpper());
@@ -101,9 +81,7 @@ namespace sermed.shared
         {
             byte[] final = new byte[498];
             for (var i = 0; i <= 497; i++)
-            {
                 final[i] = command[i + 34];
-            }
             return final;
         }
         public byte[] ConcatByte(byte[] byte1, byte[] byte2)
@@ -181,7 +159,7 @@ namespace sermed.shared
                     status = 6;
                 else
                     status = 2;
-                Console.WriteLine("Other command");
+                Console.WriteLine("Other command and erro");
             }
             return status;
         }

@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+using System.Windows.Forms;
 namespace sermed.model
 {
     class ConfigClass
     {
         public String cmbPortName { get; set; }
         public String cmbTimeout { get; set; }
-        public String cmbReintento { get; set; }
-        public String cmbBaudRate { get; set; }
-        public String cmbParity { get; set; }
-        public String cmbDataBits { get; set; }
-        public String cmbStopBits { get; set; }
         public String equipo { get; set; }
     }
     class VersionClass
     {
-        public String version = "Versión: 3.0.0";
+        public String version = "Version " + Application.ProductVersion;
     }
     class UrlClass
     {
-        public String url = "http://visa.sermed.info:8081/WSHuella/ws/procesos/";
+        public String url = Properties.Settings.Default.url;
     }
     class DataClass
     {
