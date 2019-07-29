@@ -46,6 +46,7 @@ namespace Sermed
             this.dedo1 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flecha2 = new System.Windows.Forms.PictureBox();
+            this.retry = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.flecha1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.step3picture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.step2picture)).BeginInit();
@@ -117,7 +118,7 @@ namespace Sermed
             this.lblstep.AutoSize = true;
             this.lblstep.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblstep.ForeColor = System.Drawing.Color.Maroon;
-            this.lblstep.Location = new System.Drawing.Point(600, 250);
+            this.lblstep.Location = new System.Drawing.Point(590, 174);
             this.lblstep.Name = "lblstep";
             this.lblstep.Size = new System.Drawing.Size(472, 37);
             this.lblstep.TabIndex = 14;
@@ -233,6 +234,19 @@ namespace Sermed
             this.flecha2.TabStop = false;
             this.flecha2.Visible = false;
             // 
+            // retry
+            // 
+            this.retry.BackColor = System.Drawing.Color.DodgerBlue;
+            this.retry.ForeColor = System.Drawing.Color.White;
+            this.retry.Location = new System.Drawing.Point(855, 901);
+            this.retry.Name = "retry";
+            this.retry.Size = new System.Drawing.Size(501, 69);
+            this.retry.TabIndex = 20;
+            this.retry.Text = "Reintentar";
+            this.retry.UseVisualStyleBackColor = false;
+            this.retry.Visible = false;
+            this.retry.Click += new System.EventHandler(this.Retry_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -241,6 +255,7 @@ namespace Sermed
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1720, 1048);
             this.ControlBox = false;
+            this.Controls.Add(this.retry);
             this.Controls.Add(this.flecha2);
             this.Controls.Add(this.flecha1);
             this.Controls.Add(this.step3picture);
@@ -260,7 +275,6 @@ namespace Sermed
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Validar";
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.flecha1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.step3picture)).EndInit();
@@ -294,5 +308,6 @@ namespace Sermed
         private PictureBox step3picture;
         private PictureBox flecha1;
         private PictureBox flecha2;
+        private Button retry;
     }
 }

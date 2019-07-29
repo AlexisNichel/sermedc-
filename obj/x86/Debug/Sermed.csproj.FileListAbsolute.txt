@@ -40,3 +40,5 @@ C:\Users\alexi\Desktop\sermedc-\obj\x86\Debug\Sermed.csproj.CopyComplete
 C:\Users\alexi\Desktop\sermedc-\obj\x86\Debug\sermed.exe
 C:\Users\alexi\Desktop\sermedc-\obj\x86\Debug\sermed.pdb
 C:\Users\alexi\Desktop\sermedc-\obj\x86\Debug\sermed.Help.resources
+C:\Users\alexi\Desktop\sermedc-\obj\x86\Debug\sermed.Help2.resources
+C:\Users\alexi\Desktop\sermedc-\obj\x86\Debug\Sermed.csprojAssemblyReference.cache

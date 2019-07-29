@@ -33,6 +33,7 @@ namespace Sermed
                 }
                 catch (Exception ex)
                 {
+                  //  Application.Run(new Form2());
                     Console.WriteLine("Config.:" + ex.Message);
                     if (!String.IsNullOrEmpty(config.cmbPortName))
                     {

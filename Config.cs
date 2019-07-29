@@ -56,6 +56,7 @@ namespace Sermed
                         foreach (string port in ports)
                             cmbPortName.Items.Add(port);
                         cmbPortName.SelectedIndex = 0;
+                        AlertPermit = true;
 
                     }
                 };

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using sermed.model;
 using System.IO.Ports;
@@ -18,14 +11,17 @@ namespace Sermed
         {
             InitializeComponent();
         }
-        private SerialPort ComPort = new SerialPort(); 
+        private SerialPort ComPort = new SerialPort();
         private Timer tmrbar;
+        private Timer stepTime;
+        public Boolean AlertPermit = true;
         byte[] data = null;
         int dedo;
         int step = 0;
-        string document = "";
-        String queryType = "";
-        String huella = "";
+        string document = String.Empty;
+        String origen = String.Empty;
+        String huella = String.Empty;
+        Boolean fingerSelectEnable = false;
         private void Form2_Load(object sender, EventArgs e)
         {
             CheckForIllegalCrossThreadCalls = false;
@@ -35,7 +31,7 @@ namespace Sermed
             try
             {
                 if (!ComPort.IsOpen)
-                    connect();
+                    connect(sender, e);
                 if (ComPort.IsOpen)
                 {
                     var time = config.cmbTimeout;
@@ -56,49 +52,50 @@ namespace Sermed
                             this.Close();
                         }
                     };
-                    //borrar (no importa la razon sea enrol o lectura, al final son la misma mierda)
                     data = new Shared().HexStringToByteArray(new SensorClass().DeleteAll);
                     ComPort.Write(data, 0, data.Length);
                     var byteBuffer = bufferRead();
-                    if (byteBuffer[6] == 0 && byteBuffer[7] == 0)
+                    if (byteBuffer.Length > 1)
                     {
-                        args = new string[2];
-                        args[0] = "as"; //estado
-                        args[1] = "1125312030/ca";
-                        var argument = args[1].Replace("sermed://", string.Empty);
-                        var urlparams = argument.Split('/');
-                        document = urlparams[0];
-                        queryType = urlparams[1];
-                        var datos = ApiCall.SendFPReq("VALIDAR", document, 0, "", "visa");
-
-                        if ((datos.P_OK == "SI" || datos.P_OK == "1") && !String.IsNullOrEmpty(datos.P_HUELLA1))
+                        if (byteBuffer[6] == 0 && byteBuffer[7] == 0)
                         {
-                            huella = datos.P_HUELLA1;
-                            btncancel.Visible = true;
-                            bartimeout.Visible = true;
-                           
-                            //Thread verifyxs
-                            System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(WriteFP));
-                            t.Start();
-                            tmrbar.Start();
+                            var argument = args[1].Replace("sermed://", string.Empty);
+                            var urlparams = argument.Split('/');
+                            document = urlparams[0];
+                            origen = urlparams[1];
+                            var datos = ApiCall.SendFPReq("VALIDAR", document, 0, "", "visa");
 
-                            //verify
-                        }
-                        else if (datos.P_OK == "NO" || datos.P_OK == "0" || String.IsNullOrEmpty(datos.P_HUELLA1))
-                        {
-                            label2.Text = "Seleccione un dedo y pulsa enrolar";
-                            btncancel2.Visible = true;
-                            btnEnroll.Visible = true;
-                            //enrol
+                            if ((datos.P_OK == "SI" || datos.P_OK == "1") && !String.IsNullOrEmpty(datos.P_HUELLA1))
+                            {
+                                huella = datos.P_HUELLA1;
+                                btncancel.Visible = true;
+                                btncancel2.Visible = false;
+                                retry.Visible = false;
+                                bartimeout.Visible = true;
+                                fingerSelectEnable = false;
+                                //Thread verifyxs
+                                System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(WriteFP));
+                                t.Start();
+                                tmrbar.Start();
+                                //verify
+                            }
+                            else if (datos.P_OK == "NO" || datos.P_OK == "0" || String.IsNullOrEmpty(datos.P_HUELLA1))
+                            {
+                                fingerSelectEnable = true;
+                                label2.Text = "Seleccione un dedo y pulsa enrolar";
+                                btncancel2.Visible = true;
+                                btnEnroll.Visible = true;
+                                //enrol
+                            }
+                            else
+                            {
+                                //ir a web
+                            }
                         }
                         else
                         {
-                            //ir a web
+                            //ir a una página que pregunte si quieres reintentar...
                         }
-                    }
-                    else
-                    {
-                        //ir a una página que pregunte si quieres reintentar...
                     }
                     // System.Diagnostics.Process.Start("http://google.com");
                 }
@@ -116,58 +113,6 @@ namespace Sermed
                 return;
             }
         }
-        public void WriteFP()
-        {
-            string command = new SensorClass().WriteStart;
-            data = new Shared().HexStringToByteArray(command);
-            ComPort.Write(data, 0, data.Length);
-            byte[] byteBuffer = bufferRead();
-            command = new SensorClass().FPBase.Replace("[value]", "1");
-            data = new Shared().HexStringToByteArray(command);
-            byte[] huellaByte = System.Convert.FromBase64String(huella);
-            byte[] concatData = new Shared().ConcatByte(data, huellaByte);
-            byte[] cheked = new Shared().checksum(concatData);
-            ComPort.Write(cheked, 0, cheked.Length);
-            byteBuffer = bufferRead();
-            command = new SensorClass().Verify;
-            data = new Shared().HexStringToByteArray(command);
-            ComPort.Write(data, 0, data.Length);
-            ReadProcess();
-        }
-        public void ReadProcess()
-        {
-            Int32 status = 0;
-            /*Status determina 0=intermedio, 1 =Error(lectura), 2=Fatal error, 3=Cancelado, 4=No registrado, 5=Success */
-            while (status == 0)
-            {
-                var byteBuffer = bufferRead();
-                status = Shared.VerifyReadStep(byteBuffer, step);
-            }
-            switch (status)
-            {
-                case 1: //Error de lectura
-                    lblstep.Text = "Error de lectura";
-                    break;
-                case 2: //error
-                    lblstep.Text = "Fatal error";
-                    break;
-                case 3: //Cancelado
-                    lblstep.Text = "Cancelado";
-                    break;
-                case 4: //timeour
-                    lblstep.Text = "Espera agotada";
-                    break;
-                case 5: //no reg
-                    lblstep.Text = "La huella no se encuentra registrada";
-                    break;
-                case 6: //Success
-                    EnviarRegistro();
-                    break;
-            }
-            
-        }
-
-
         private void btn_cancel_click(object sender, EventArgs e)
         {
             if (ComPort.IsOpen)
@@ -177,58 +122,7 @@ namespace Sermed
                 ComPort.Close();
             }
             this.Close();
-
-            //ir a una página que pregunte si quieres reintentar...
-        }
-        private void Btncancel2_Click(object sender, EventArgs e)
-        {
-            btn_cancel_click(sender, e);
-        }
-        public void connect()
-        {
-            var config = new Shared().GetConfig();
-            bool error = false;
-            ComPort.PortName = config.cmbPortName;
-            ComPort.BaudRate = 115200;
-            ComPort.Parity = (Parity)Enum.Parse(typeof(Parity), "None");
-            ComPort.DataBits = 8;
-            ComPort.StopBits = (StopBits)Enum.Parse(typeof(StopBits), "1");
-            try
-            {
-                ComPort.Open();
-            }
-            catch (UnauthorizedAccessException) { error = true; }
-            catch (System.IO.IOException) { error = true; }
-            catch (ArgumentException) { error = true; }
-            //definir si se mostrara el error
-            if (error) MessageBox.Show(this, "No se pudo abrir el puerto COM. Desconecte el lector, conectelo nuevamente y vuelva a intentarlo.", "Error de puerto", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-        }
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            var command = new Shared().set_cmd();
-            command[2] = 0x03;
-            command[3] = 0x01;
-            command[4] = 0x02;
-            command[6] = 2;
-            data = new Shared().calcular_chk(command);
-            tmrbar.Start();
-            ComPort.Write(data, 0, data.Length);
-        }
-        private void Dedo1_Click(object sender, EventArgs e)
-        {
-            dedo1.Visible = false;
-            huella1.Visible = true;
-            dedo2.Visible = true;
-            huella2.Visible = false;
-            dedo = 1;
-        }
-        private void Dedo2_Click(object sender, EventArgs e)
-        {
-            huella1.Visible = false;
-            dedo1.Visible = true;
-            dedo2.Visible = false;
-            huella2.Visible = true;
-            dedo = 2;
+            //ir a página de origen
         }
         private void BtnEnroll_Click(object sender, EventArgs e)
         {
@@ -306,15 +200,7 @@ namespace Sermed
             tmrbar.Stop();
             tmrbar.Dispose();
         }
-        private void EnviarRegistro()
-        {
-            label2.Text = "Huella se ha validado correctamente";
-            System.Diagnostics.Process.Start("http://visa.sermed.info/auth/visacion/visacion");
-            bartimeout.Invoke(new Action(() => bartimeout.Visible = false));
-            tmrbar.Stop();
-            tmrbar.Dispose();
-            this.Close();
-        }
+
         private void EnviarHuella()
         {
             string command = new SensorClass().GetFP.Replace("[value]", "1");
@@ -328,38 +214,230 @@ namespace Sermed
             if (datos.P_OK == "SI" || datos.P_OK == "1")
             {
                 lblstep.Text = "Huella enrolada correctamente";
+                retry.Invoke(new Action(() => retry.Visible = true));
             }
             else if (datos.P_OK == "NO" || datos.P_OK == "0")
             {
-                label2.Text = "Error";
+                label2.Text = "Error en el envío de huella a server";
+            }
+        }
+        private void EnviarRegistro()
+        {
+            label2.Text = "Huella del beneficiario ha sido validada";
+            bartimeout.Invoke(new Action(() => bartimeout.Visible = false));
+            btncancel.Invoke(new Action(() => btncancel.Visible = false));
+            btncancel2.Invoke(new Action(() => btncancel2.Visible = false));
+            btnEnroll.Invoke(new Action(() => btnEnroll.Visible = false));
+            retry.Invoke(new Action(() => retry.Visible = false));
+            bartimeout.Invoke(new Action(() => bartimeout.Visible = false));
+            tmrbar.Stop();
+            tmrbar.Dispose();
+            System.Threading.Thread.Sleep(2000);
+            switch (origen)
+            {
+                case "cn":
+                    System.Diagnostics.Process.Start("http://visa.sermed.info/auth/visacion/visacion/visaConsultaHv/" + document);
+                    break;
+                case "cu":
+                    System.Diagnostics.Process.Start("http://visa.sermed.info/auth/visacion/visacion/visaConsultaUrgenciaHv/" + document);
+                    break;
+                case "sn":
+                    System.Diagnostics.Process.Start("http://visa.sermed.info/auth/visacion/visacion/visaServicioHv/" + document);
+                    break;
+                case "su":
+                    System.Diagnostics.Process.Start("http://visa.sermed.info/auth/visacion/visacion/visaServicioUrgenciaHv/" + document);
+                    break;
+                case "ve":
+                    System.Diagnostics.Process.Start("http://visa.sermed.info/auth/index.php/visacion/visacion");
+                    break;
+            }
+            this.Close();
+        }
+        public void ReadProcess()
+        {
+            Int32 status = 0;
+            while (status == 0)
+            {
+                var byteBuffer = bufferRead();
+                if (byteBuffer.Length > 1)
+                {
+                    status = Shared.VerifyReadStep(byteBuffer, step);
+                }
+                else
+                {
+                    status = 7;
+                }
+            }
+            if (status == 6)
+            {
+                EnviarRegistro();
+            }
+            else
+            {
+                switch (status)
+                {
+                    case 7:
+                        lblstep.Text = "Error, el equipo se desconectó";
+                        break;
+                    case 1:
+                        lblstep.Text = "Error en la lectura de la huella";
+                        break;
+                    case 2:
+                        lblstep.Text = "Error no identificado en lectura";
+                        break;
+                    case 3:
+                        lblstep.Text = "Se canceló el proceso de lectura";
+                        break;
+                    case 4:
+                        lblstep.Text = "Se agotó el tiempo de espera";
+                        break;
+                    case 5:
+                        lblstep.Text = "Huella no registrada o incorrecta";
+                        break;
+                }
+                lblstep.Invoke(new Action(() => lblstep.Visible = true));
+                bartimeout.Value = 0;
+                tmrbar.Stop();
+                tmrbar.Dispose();
+                if (status == 7)
+                {
+                    sermed.Help2 objUI = new sermed.Help2();
+                    objUI.ShowDialog();
+                }
+                btncancel.Invoke(new Action(() => btncancel.Visible = false));
+                btncancel2.Invoke(new Action(() => btncancel2.Visible = true));
+                retry.Invoke(new Action(() => retry.Visible = true));
             }
         }
         private byte[] bufferRead()
         {
-            int intBuffer;
             byte[] byteBuffer = null;
-            byte[] byteBuffer2 = null;
-            var len = 0;
-            while (len == 0)
+            try
             {
-                intBuffer = ComPort.BytesToRead;
-                byteBuffer = new byte[intBuffer];
-                len = ComPort.Read(byteBuffer, 0, intBuffer);
-                if (len == 24 || len == 48 || len == 534)
-                    break;
-                else
-                    System.Threading.Thread.Sleep(100);
-            }
-            if (byteBuffer.Length == 48)
-            {
-                byteBuffer2 = new byte[24];
-                for (var i = 0; i <= 23; i++)
+                int intBuffer;
+                byte[] byteBuffer2 = null;
+                var len = 0;
+                while (len == 0)
                 {
-                    byteBuffer2[i] = byteBuffer2[i];
+                    intBuffer = ComPort.BytesToRead;
+                    byteBuffer = new byte[intBuffer];
+                    len = ComPort.Read(byteBuffer, 0, intBuffer);
+                    if (len == 24 || len == 48 || len == 534)
+                        break;
+                    else
+                        System.Threading.Thread.Sleep(100);
                 }
-                byteBuffer = byteBuffer2;
+                if (byteBuffer.Length == 48)
+                {
+                    byteBuffer2 = new byte[24];
+                    for (var i = 0; i <= 23; i++)
+                    {
+                        byteBuffer2[i] = byteBuffer2[i];
+                    }
+                    byteBuffer = byteBuffer2;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                byteBuffer = new byte[1];
             }
             return byteBuffer;
+        }
+        private void Btncancel2_Click(object sender, EventArgs e)
+        {
+            btn_cancel_click(sender, e);
+        }
+        private void Dedo1_Click(object sender, EventArgs e)
+        {
+            if (fingerSelectEnable)
+            {
+                dedo1.Visible = false;
+                huella1.Visible = true;
+                dedo2.Visible = true;
+                huella2.Visible = false;
+                dedo = 1;
+            }
+        }
+        private void Dedo2_Click(object sender, EventArgs e)
+        {
+            if (fingerSelectEnable)
+            {
+                huella1.Visible = false;
+                dedo1.Visible = true;
+                dedo2.Visible = false;
+                huella2.Visible = true;
+                dedo = 2;
+            }
+        }
+        private void Retry_Click(object sender, EventArgs e)
+        {
+            lblstep.Invoke(new Action(() => lblstep.Visible = false));
+            Form2_Load(sender, e);
+        }
+        public void WriteFP()
+        {
+            string command = new SensorClass().WriteStart;
+            data = new Shared().HexStringToByteArray(command);
+            ComPort.Write(data, 0, data.Length);
+            byte[] byteBuffer = bufferRead();
+            if (byteBuffer.Length > 1)
+            {
+                command = new SensorClass().FPBase.Replace("[value]", "1");
+                data = new Shared().HexStringToByteArray(command);
+                byte[] huellaByte = System.Convert.FromBase64String(huella);
+                byte[] concatData = new Shared().ConcatByte(data, huellaByte);
+                byte[] cheked = new Shared().checksum(concatData);
+                ComPort.Write(cheked, 0, cheked.Length);
+                byteBuffer = bufferRead();
+                command = new SensorClass().Verify;
+                data = new Shared().HexStringToByteArray(command);
+                ComPort.Write(data, 0, data.Length);
+                ReadProcess();
+            }
+        }
+        public void connect(object sender, EventArgs e)
+        {
+            var config = new Shared().GetConfig();
+            bool error = false;
+            ComPort.PortName = config.cmbPortName;
+            ComPort.BaudRate = 115200;
+            ComPort.Parity = (Parity)Enum.Parse(typeof(Parity), "None");
+            ComPort.DataBits = 8;
+            ComPort.StopBits = (StopBits)Enum.Parse(typeof(StopBits), "1");
+            try
+            {
+                ComPort.Open();
+            }
+            catch (UnauthorizedAccessException) { error = true; }
+            catch (System.IO.IOException) { error = true; }
+            catch (ArgumentException) { error = true; }
+            if (error)
+            {
+                stepTime = new Timer();
+                stepTime.Interval = (int)TimeSpan.FromMilliseconds(2000).TotalMilliseconds;
+                stepTime.Tick += delegate
+                {
+                    var ports = SerialPort.GetPortNames();
+                    if (ports.Length > 0)
+                    {
+                        foreach (string port in ports)
+                        {
+                            if (port == config.cmbPortName)
+                            {
+                                AlertPermit = true;
+                                stepTime.Stop();
+                                stepTime.Dispose();
+                                Form2_Load(sender, e);
+                            }
+                        }
+                    }
+                };
+                AlertPermit = false;
+                stepTime.Start();
+                sermed.Help2 objUI = new sermed.Help2();
+                objUI.Show();
+            }
         }
     }
 }
