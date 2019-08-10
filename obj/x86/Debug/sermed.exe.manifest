@@ -67,14 +67,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="sermed.exe" size="265216">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="sermed.exe" size="266560">
       <assemblyIdentity name="sermed" version="3.0.1.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>vRBdOYeNk+07ZBX6Qd86OiLHyXjP6LluDY9srbTPTko=</dsig:DigestValue>
+        <dsig:DigestValue>7VDaDmnFb20Bi3TRvRYSdrvi8skELjWMDk3poC16r3M=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
